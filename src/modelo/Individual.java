@@ -11,6 +11,9 @@ public class Individual extends Participante {
     public Individual(String senha, boolean administrador) {
         this.senha = senha;
         this.administrador = administrador;
+
+        this.enviadas = new ArrayList<>();
+        this.grupos = new ArrayList<>();
     }
 
     public String getSenha() {
