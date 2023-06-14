@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter;
 public class Mensagem {
     private int id;
     private String texto;
-    private Individual emitente;
+    private Participante emitente;
     private Participante destinatario;
     private LocalDateTime datahora;
 
-    public Mensagem(String texto, Individual emitente, Participante destinatario) {
+    public Mensagem(String texto, Participante emitente, Participante destinatario) {
         this.texto = texto;
         this.emitente = emitente;
         this.destinatario = destinatario;
@@ -30,7 +30,7 @@ public class Mensagem {
         this.texto = texto;
     }
 
-    public Individual getEmitente() {
+    public Participante getEmitente() {
         return emitente;
     }
 
@@ -40,5 +40,16 @@ public class Mensagem {
 
     public LocalDateTime getDatahora() {
         return datahora;
+    }
+
+    @Override
+    public String toString() {
+        return "Mensagem{" +
+                "id=" + id +
+                ", texto='" + texto + '\'' +
+                ", emitente=" + emitente.getNome() +
+                ", destinatario=" + destinatario.getNome() +
+                ", datahora=" + datahora +
+                '}';
     }
 }

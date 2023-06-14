@@ -8,11 +8,10 @@ public class Individual extends Participante {
     private ArrayList<Mensagem> enviadas;
     private ArrayList<Grupo> grupos;
 
-    public Individual(String senha, boolean administrador) {
+    public Individual(String nome,String senha, boolean administrador) {
+        super(nome);
         this.senha = senha;
         this.administrador = administrador;
-
-        this.enviadas = new ArrayList<>();
         this.grupos = new ArrayList<>();
     }
 

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Grupo extends Participante{
     private ArrayList<Individual> individuos;
 
-    public Grupo(){
+    public Grupo(String nome){
+        super(nome);
         this.individuos = new ArrayList<>();
     }
 
