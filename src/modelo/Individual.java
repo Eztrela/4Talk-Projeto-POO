@@ -38,4 +38,5 @@ public class Individual extends Participante {
     public ArrayList<Grupo> getGrupos() {
         return grupos;
     }
+
 }

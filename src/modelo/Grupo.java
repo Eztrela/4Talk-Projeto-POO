@@ -14,6 +14,10 @@ public class Grupo extends Participante{
         return individuos;
     }
 
+    public void adicionar(Individual indvidual){
+        this.individuos.add(indvidual);
+    }
+
     @Override
     public String toString() {
         return "Grupo{" +
