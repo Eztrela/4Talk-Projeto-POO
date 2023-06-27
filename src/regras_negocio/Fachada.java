@@ -50,7 +50,7 @@ public class Fachada {
 
         Participante participante = repositorio.localizarParticipante(nome);
         if(participante != null)
-            throw new Exception("criar individual - nome ja existe:" + nome);
+            throw new Exception("criar individual - nome ja existe: " + nome);
 
 
         Individual individuo = new Individual(nome,senha, false);
@@ -58,7 +58,19 @@ public class Fachada {
     }
 
     public static void criarAdministrador(String nome, String senha) throws  Exception{
-        //...
+        if(nome.isEmpty())
+            throw new Exception("criar individual - nome vazio:");
+        if(senha.isEmpty())
+            throw new Exception("criar individual - senha vazia:");
+
+
+        Individual administrador = repositorio.localizarIndividual(nome);
+        if(administrador != null)
+            throw new Exception("criar administrador - nome ja existe: "+ nome);
+
+        administrador = new Individual(nome, senha, true);
+        repositorio.adicionar(administrador);
+        repositorio.salvarObjetos();
     }
 
 
@@ -214,7 +226,6 @@ public class Fachada {
                 }
 
             });
-
         }
     }
 
