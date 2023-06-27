@@ -20,7 +20,7 @@ public class Fachada {
         return repositorio.getIndividuos();
     }
     public static ArrayList<Grupo> listarGrupos() {
-
+        return repositorio.getGrupos();
     }
     public static ArrayList<Mensagem> listarMensagens() {
 
@@ -29,13 +29,17 @@ public class Fachada {
     public static ArrayList<Mensagem> listarMensagensEnviadas(String nome) throws Exception{
         Individual ind = repositorio.localizarIndividual(nome);
         if(ind == null)
-            throw new Exception("listar  mensagens enviadas - nome nao existe:" + nome);
+            throw new Exception("listar  mensagens enviadas - nome nao existe: " + nome);
 
         return ind.getEnviadas();
     }
 
     public static ArrayList<Mensagem> listarMensagensRecebidas(String nome) throws Exception{
-
+        Participante participante = repositorio.localizarParticipante(nome);
+        if(participante == null){
+            throw new Exception("listar mensagens recebidas - nome nao existe: " + nome);
+        }
+        return participante.getRecebidas();
     }
 
     public static void criarIndividuo(String nome, String senha) throws  Exception{
@@ -44,8 +48,8 @@ public class Fachada {
         if(senha.isEmpty())
             throw new Exception("criar individual - senha vazia:");
 
-        Participante p = repositorio.localizarParticipante(nome);
-        if(p != null)
+        Participante participante = repositorio.localizarParticipante(nome);
+        if(participante != null)
             throw new Exception("criar individual - nome ja existe:" + nome);
 
 
@@ -59,15 +63,44 @@ public class Fachada {
 
 
     public static void criarGrupo(String nome) throws  Exception{
+
+        if(nome.isEmpty())
+            throw new Exception("criar individual - nome vazio:");
+
         //localizar nome no repositorio
+        Grupo grupo = repositorio.localizarGrupo(nome);
+        if (grupo != null)
+            throw new Exception("criar grupo - grupo ja existe:" + nome);
+
         //criar o grupo
+        grupo = new Grupo(nome);
+        repositorio.adicionar(grupo);
+        repositorio.salvarObjetos();
     }
 
     public static void inserirGrupo(String nomeindividuo, String nomegrupo) throws  Exception{
+        if(nomeindividuo.isEmpty())
+            throw new Exception("inserir grupo - nomeindividuo vazio:");
+        if(nomegrupo.isEmpty())
+            throw new Exception("inserir grupo - nomegrupo vazia:");
+
         //localizar nomeindividuo no repositorio
+        Individual individual = repositorio.localizarIndividual(nomeindividuo);
+        if(individual == null)
+            throw new Exception("inserir grupo - nomeindividuo nao existe: " + nomeindividuo);
+
         //localizar nomegrupo no repositorio
+        Grupo grupo = repositorio.localizarGrupo(nomegrupo);
+        if(individual == null)
+            throw new Exception("inserir grupo - nomeingrupo nao existe: " + nomegrupo);
+
         //verificar se individuo nao esta no grupo
+        if (grupo.getIndividuos().contains(individual))
+            throw  new Exception("inserir grupo - nomeindividuo já participa do grupo");
+
         //adicionar individuo com o grupo e vice-versa
+        grupo.adicionar(individual);
+        repositorio.salvarObjetos();
     }
 
     public static void removerGrupo(String nomeindividuo, String nomegrupo) throws  Exception{
@@ -97,8 +130,8 @@ public class Fachada {
         //cont.
         //gerar id no repositorio para a mensagem
         int idMensagem = repositorio.geraIdMensagem();
-        //DUVIDA: ESSA MENSAGEM TEM Q SER CRIADA DENTRO DO REPOSITORIO??????????????
-        Mensagem mensagem = new Mensagem(idMensagem,texto,emitente,destinatario);
+
+        Mensagem mensagem = repositorio.criarMensagem(idMensagem,emitente,destinatario,texto);
         //adicionar mensagem ao emitente e destinatario
         emitente.adicionarMensagemEnviada(mensagem);
         destinatario.adicionarMensagemRecebidas(mensagem);
@@ -112,11 +145,12 @@ public class Fachada {
                     Mensagem mensagemGrupo = new Mensagem(idMensagem, texto, grp, individual);
                     individual.adicionarMensagemRecebidas(mensagemGrupo);
                     grp.adicionarMensagemEnviada(mensagemGrupo);
+                    repositorio.adicionar(mensagemGrupo);
                 }
             }
         }
         //  usando mesmo id e texto, e adicionar essas copias no repositorio
-
+        repositorio.salvarObjetos();
     }
 
     public static ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) throws Exception{

@@ -26,7 +26,7 @@ public class Repositorio {
     public int geraIdMensagem(){
         if (mensagens.size() == 0)
             return 1;
-        return this.mensagens.get(-1).getId() + 1;
+        return this.mensagens.lastKey() + 1;
     }
     public void adicionar(Participante p) {
         participantes.put(p.getNome(), p);
@@ -41,13 +41,23 @@ public class Repositorio {
     }
 
     public Individual localizarIndividual(String nome){
-        for (String nomeParticipante: participantes.keySet()){
-            if (nomeParticipante.equals(nome) && participantes.get(nome) instanceof  Individual ind){
+            if (participantes.get(nome) instanceof Individual ind)
                 return ind;
-            }
-        }
         return null;
     }
+
+    public Grupo localizarGrupo(String nome){
+        if(participantes.get(nome) instanceof Grupo grp)
+            return grp;
+        return null;
+    }
+
+    public Mensagem criarMensagem(int idMensagem, Participante emitente, Participante destinatario, String texto){
+        Mensagem mensagem = new Mensagem(idMensagem, texto,emitente,destinatario);
+        return mensagem;
+    }
+
+
 
 //    public Grupo localizarGrupo(String nome){
 //        for (String nomeGrupo: participantes.keySet()){
