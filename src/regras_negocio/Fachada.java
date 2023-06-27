@@ -50,7 +50,7 @@ public class Fachada {
 
         Participante participante = repositorio.localizarParticipante(nome);
         if(participante != null)
-            throw new Exception("criar individual - nome ja existe:" + nome);
+            throw new Exception("criar individual - nome ja existe: " + nome);
 
 
         Individual individuo = new Individual(nome,senha, false);
@@ -58,7 +58,19 @@ public class Fachada {
     }
 
     public static void criarAdministrador(String nome, String senha) throws  Exception{
-        //...
+        if(nome.isEmpty())
+            throw new Exception("criar individual - nome vazio:");
+        if(senha.isEmpty())
+            throw new Exception("criar individual - senha vazia:");
+
+
+        Individual administrador = repositorio.localizarIndividual(nome);
+        if(administrador != null)
+            throw new Exception("criar administrador - nome ja existe: "+ nome);
+
+        administrador = new Individual(nome, senha, true);
+        repositorio.adicionar(administrador);
+        repositorio.salvarObjetos();
     }
 
 
@@ -104,29 +116,7 @@ public class Fachada {
     }
 
     public static void removerGrupo(String nomeindividuo, String nomegrupo) throws  Exception{
-        if(nomeindividuo.isEmpty())
-            throw new Exception("inserir grupo - nomeindividuo vazio:");
-
-        if(nomegrupo.isEmpty())
-            throw new Exception("inserir grupo - nomegrupo vazia:");
-
-        //localizar nomeindividuo no repositorio
-        Individual individual = repositorio.localizarIndividual(nomeindividuo);
-        if(individual == null)
-            throw new Exception("inserir grupo - nomeindividuo nao existe: " + nomeindividuo);
-
-        //localizar nomegrupo no repositorio
-        Grupo grupo = repositorio.localizarGrupo(nomegrupo);
-        if(individual == null)
-            throw new Exception("inserir grupo - nomeingrupo nao existe: " + nomegrupo);
-
-        //verificar se individuo ja esta no grupo
-        if (!grupo.getIndividuos().contains(individual))
-            throw  new Exception("inserir grupo - nomeindividuo nao participa do grupo");
-
-        //remover individuo com o grupo e vice-versa
-        grupo.remover(individual);
-        repositorio.salvarObjetos();
+        //...
     }
 
 
@@ -214,7 +204,6 @@ public class Fachada {
                 }
 
             });
-
         }
     }
 
