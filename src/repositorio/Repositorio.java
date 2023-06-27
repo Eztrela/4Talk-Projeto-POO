@@ -143,7 +143,7 @@ public class Repositorio {
                 grupo = new Grupo(nome);
                 if (partes.length > 1)
                     for (int i = 1; i < partes.length; i++) {
-                        individuo = this.localizarParticipante(partes[i]);
+                        individuo = this.localizarIndividual(partes[i]);
                         grupo.adicionar(individuo);
                     }
                 this.adicionar(grupo);
@@ -171,7 +171,7 @@ public class Repositorio {
                 emitente = this.localizarParticipante(nomeemitente);
                 destinatario = this.localizarParticipante(nomedestinatario);
                 m = new Mensagem(Integer.parseInt(id), texto, emitente, destinatario);
-                this.adicionar(m);
+                this.adicionar(Integer.parseInt(id),m);
             }
             arquivo3.close();
         } catch (Exception ex) {
@@ -186,7 +186,7 @@ public class Repositorio {
         try {
             File f = new File(new File(".\\mensagens.csv").getCanonicalPath());
             FileWriter arquivo1 = new FileWriter(f);
-            for (Mensagem m : mensagens) {
+            for (Mensagem m : mensagens.values()) {
                 arquivo1.write(m.getId() + ";" +
                         m.getEmitente().getNome() + ";" +
                         m.getDestinatario().getNome() + ";" +
