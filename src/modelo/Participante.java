@@ -26,6 +26,25 @@ public class Participante {
         return recebidas;
     }
 
+    public ArrayList<Mensagem> getEnviadas() {
+        return enviadas;
+    }
+
+    public void adicionarMensagemEnviada(Mensagem msg){
+        this.enviadas.add(msg);
+    }
+    public void removerMensagemEnviada(Mensagem msg){
+        this.enviadas.remove(msg);
+    }
+
+    public void adicionarMensagemRecebidas(Mensagem msg){
+        this.recebidas.add(msg);
+    }
+
+    public void removerMensagemRecebida(Mensagem msg){
+        this.recebidas.remove(msg);
+    }
+
     @Override
     public String toString() {
         return "Participante{" +

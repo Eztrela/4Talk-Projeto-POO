@@ -13,16 +13,21 @@ import modelo.Grupo;
 import modelo.Participante;
 import modelo.Mensagem;
 
+import javax.sound.midi.MidiMessage;
 
 
 public class Repositorio {
-    private HashMap<String, Participante> participantes = new HashMap<>();
-    private ArrayList<Mensagem> mensagens = new ArrayList<>();
-
+    private TreeMap<String, Participante> participantes = new TreeMap<>();
+    private TreeMap<Integer,Mensagem> mensagens = new TreeMap<>();
+    private int idMensagem;
     public Repositorio() {
+        idMensagem = 0;
         carregarObjetos();
     }
-
+    public int geraIdMensagem(){
+        idMensagem++;
+        return idMensagem;
+    }
     public void adicionar(Participante p) {
         participantes.put(p.getNome(), p);
     }
@@ -35,8 +40,26 @@ public class Repositorio {
         return participantes.get(nome);
     }
 
-    public void adicionar(Mensagem m) {
-        mensagens.add(m);
+    public Individual localizarIndividual(String nome){
+        for (String nomeParticipante: participantes.keySet()){
+            if (nomeParticipante.equals(nome) && participantes.get(nome) instanceof  Individual ind){
+                return ind;
+            }
+        }
+        return null;
+    }
+
+//    public Grupo localizarGrupo(String nome){
+//        for (String nomeGrupo: participantes.keySet()){
+//            if (nomeGrupo.equals(nome) && participantes.get(nome) instanceof  Grupo grp){
+//                return grp;
+//            }
+//        }
+//        return null;
+//    }
+
+    public void adicionar(int idMensagem,Mensagem mensagem) {
+        mensagens.put(idMensagem,mensagem);
     }
 
     public void remover(Mensagem m) {

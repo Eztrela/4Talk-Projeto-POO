@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Individual extends Participante {
     private String senha;
     private boolean administrador;
-    private ArrayList<Mensagem> enviadas;
     private ArrayList<Grupo> grupos;
 
     public Individual(String nome,String senha, boolean administrador) {
@@ -31,12 +30,16 @@ public class Individual extends Participante {
         this.administrador = administrador;
     }
 
-    public ArrayList<Mensagem> getEnviadas() {
-        return enviadas;
-    }
-
     public ArrayList<Grupo> getGrupos() {
         return grupos;
+    }
+
+    public Grupo localizarGrupo(String nome){
+        for(Grupo grp: grupos){
+            if(grp.getNome() == nome)
+                return grp;
+        }
+        return null;
     }
 
 }
