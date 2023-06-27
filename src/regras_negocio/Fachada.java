@@ -104,10 +104,29 @@ public class Fachada {
     }
 
     public static void removerGrupo(String nomeindividuo, String nomegrupo) throws  Exception{
+        if(nomeindividuo.isEmpty())
+            throw new Exception("inserir grupo - nomeindividuo vazio:");
+
+        if(nomegrupo.isEmpty())
+            throw new Exception("inserir grupo - nomegrupo vazia:");
+
         //localizar nomeindividuo no repositorio
+        Individual individual = repositorio.localizarIndividual(nomeindividuo);
+        if(individual == null)
+            throw new Exception("inserir grupo - nomeindividuo nao existe: " + nomeindividuo);
+
         //localizar nomegrupo no repositorio
+        Grupo grupo = repositorio.localizarGrupo(nomegrupo);
+        if(individual == null)
+            throw new Exception("inserir grupo - nomeingrupo nao existe: " + nomegrupo);
+
         //verificar se individuo ja esta no grupo
+        if (!grupo.getIndividuos().contains(individual))
+            throw  new Exception("inserir grupo - nomeindividuo nao participa do grupo");
+
         //remover individuo com o grupo e vice-versa
+        grupo.remover(individual);
+        repositorio.salvarObjetos();
     }
 
 
