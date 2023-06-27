@@ -19,14 +19,14 @@ import javax.sound.midi.MidiMessage;
 public class Repositorio {
     private TreeMap<String, Participante> participantes = new TreeMap<>();
     private TreeMap<Integer,Mensagem> mensagens = new TreeMap<>();
-    private int idMensagem;
+
     public Repositorio() {
-        idMensagem = 0;
         carregarObjetos();
     }
     public int geraIdMensagem(){
-        idMensagem++;
-        return idMensagem;
+        if (mensagens.size() == 0)
+            return 1;
+        return this.mensagens.get(-1).getId() + 1;
     }
     public void adicionar(Participante p) {
         participantes.put(p.getNome(), p);
@@ -58,8 +58,8 @@ public class Repositorio {
 //        return null;
 //    }
 
-    public void adicionar(int idMensagem,Mensagem mensagem) {
-        mensagens.put(idMensagem,mensagem);
+    public void adicionar(Mensagem mensagem) {
+        mensagens.put(mensagem.getId(),mensagem);
     }
 
     public void remover(Mensagem m) {
@@ -171,7 +171,7 @@ public class Repositorio {
                 emitente = this.localizarParticipante(nomeemitente);
                 destinatario = this.localizarParticipante(nomedestinatario);
                 m = new Mensagem(Integer.parseInt(id), texto, emitente, destinatario);
-                this.adicionar(Integer.parseInt(id),m);
+                this.adicionar(m);
             }
             arquivo3.close();
         } catch (Exception ex) {

@@ -97,19 +97,22 @@ public class Fachada {
         //cont.
         //gerar id no repositorio para a mensagem
         int idMensagem = repositorio.geraIdMensagem();
+        //DUVIDA: ESSA MENSAGEM TEM Q SER CRIADA DENTRO DO REPOSITORIO??????????????
         Mensagem mensagem = new Mensagem(idMensagem,texto,emitente,destinatario);
         //adicionar mensagem ao emitente e destinatario
         emitente.adicionarMensagemEnviada(mensagem);
         destinatario.adicionarMensagemRecebidas(mensagem);
         //adicionar mensagem ao repositorio
-        repositorio.adicionar(idMensagem,mensagem);
+        repositorio.adicionar(mensagem);
         //
         //caso destinatario seja tipo Grupo então criar copias da mensagem, tendo o grupo como emitente e cada membro do grupo como destinatario,
         if (destinatario instanceof Grupo grp){
             for (Individual individual: grp.getIndividuos()){
-                Mensagem mensagemGrupo = new Mensagem(idMensagem,texto,grp,individual);
-                individual.adicionarMensagemRecebidas(mensagemGrupo);
-                repositorio.adicionar(idMensagem,mensagemGrupo);
+                if(!individual.equals(emitente)) {
+                    Mensagem mensagemGrupo = new Mensagem(idMensagem, texto, grp, individual);
+                    individual.adicionarMensagemRecebidas(mensagemGrupo);
+                    grp.adicionarMensagemEnviada(mensagemGrupo);
+                }
             }
         }
         //  usando mesmo id e texto, e adicionar essas copias no repositorio
