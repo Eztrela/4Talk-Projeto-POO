@@ -23,7 +23,7 @@ public class Fachada {
         return repositorio.getGrupos();
     }
     public static ArrayList<Mensagem> listarMensagens() {
-
+        return repositorio.getMensagens();
     }
 
     public static ArrayList<Mensagem> listarMensagensEnviadas(String nome) throws Exception{

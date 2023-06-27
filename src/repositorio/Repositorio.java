@@ -57,17 +57,6 @@ public class Repositorio {
         return mensagem;
     }
 
-
-
-//    public Grupo localizarGrupo(String nome){
-//        for (String nomeGrupo: participantes.keySet()){
-//            if (nomeGrupo.equals(nome) && participantes.get(nome) instanceof  Grupo grp){
-//                return grp;
-//            }
-//        }
-//        return null;
-//    }
-
     public void adicionar(Mensagem mensagem) {
         mensagens.put(mensagem.getId(),mensagem);
     }
@@ -92,6 +81,11 @@ public class Repositorio {
                 grupos.add((Grupo) grp);
         }
         return grupos;
+    }
+
+    public ArrayList<Mensagem> getMensagens(){
+        ArrayList<Mensagem> listaMensagens = new ArrayList<>(mensagens.values());
+        return listaMensagens;
     }
 
 
