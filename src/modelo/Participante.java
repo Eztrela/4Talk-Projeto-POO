@@ -45,6 +45,23 @@ public class Participante {
         this.recebidas.remove(msg);
     }
 
+    public Mensagem localizarEnviada(int id){
+        for (Mensagem mensagem: this.enviadas){
+            if (mensagem.getId() == id){
+                return mensagem;
+            }
+        }
+        return null;
+    }
+
+    public void removerEnviada(Mensagem mensagem){
+        enviadas.remove(mensagem);
+    }
+
+    public void removerRecebida(Mensagem mensagem){
+        recebidas.remove(mensagem);
+    }
+
     @Override
     public String toString() {
         return "Participante{" +

@@ -151,10 +151,9 @@ public class Fachada {
         if (destinatario instanceof Grupo grp){
             for (Individual individual: grp.getIndividuos()){
                 if(!individual.equals(emitente)) {
-                    Mensagem mensagemGrupo = new Mensagem(idMensagem, texto, grp, individual);
+                    Mensagem mensagemGrupo = repositorio.criarMensagem(idMensagem, grp, individual, texto);
                     individual.adicionarMensagemRecebidas(mensagemGrupo);
                     grp.adicionarMensagemEnviada(mensagemGrupo);
-                    repositorio.adicionar(mensagemGrupo);
                 }
             }
         }
