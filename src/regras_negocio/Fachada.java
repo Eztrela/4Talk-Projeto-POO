@@ -257,8 +257,20 @@ public class Fachada {
 
     public static ArrayList<String> ausentes(String nomeadministrador) throws Exception{
         //localizar individuo no repositorio
+        Individual administrador = repositorio.localizarIndividual(nomeadministrador);
+        if(administrador == null)
+            throw new Exception("apagar mensagem - nome nao existe:" + nomeadministrador);
         //verificar se individuo é administrador
+        ArrayList<String> ausentes = new ArrayList<>();
+        if(!administrador.isAdministrador())
+            throw new Exception("O indiviuo "+ nomeadministrador + "nao e administrador");
         //listar os nomes dos participante que nao enviaram mensagens
+        ArrayList<Participante> participantes = repositorio.getParticipantes();
+        for(Participante participante: participantes){
+            if (participante.getEnviadas().isEmpty())
+                ausentes.add(participante.getNome());
+        }
+        return ausentes;
     }
 
 }

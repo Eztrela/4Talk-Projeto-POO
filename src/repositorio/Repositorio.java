@@ -65,6 +65,15 @@ public class Repositorio {
         mensagens.remove(m);
     }
 
+    public ArrayList<Participante> getParticipantes(){
+        ArrayList<Participante> prtes = new ArrayList<>();
+        for(Participante part: participantes.values()){
+            if(part instanceof Individual)
+                prtes.add((Individual) part);
+        }
+        return prtes;
+    }
+
     public ArrayList<Individual> getIndividuos(){
         ArrayList<Individual> inds = new ArrayList<>();
         for(Participante part: participantes.values()){
