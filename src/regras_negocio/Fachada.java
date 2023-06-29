@@ -208,8 +208,23 @@ public class Fachada {
 
     public static ArrayList<Mensagem> espionarMensagens(String nomeadministrador, String termo) throws Exception{
         //localizar individuo no repositorio
+        Individual administrador = repositorio.localizarIndividual(nomeadministrador);
+        if(administrador == null)
+            throw new Exception("apagar mensagem - nome nao existe:" + nomeadministrador);
         //verificar se individuo é administrador
+        ArrayList<Mensagem> mensagensComTermo = new ArrayList<>();
+        if(administrador.isAdministrador()){
+            ArrayList<Mensagem> todasMensagens = repositorio.getMensagens();
         //listar as mensagens que contem o termo no texto
+            if(termo.equals("")){
+                return todasMensagens;
+            }
+            for(Mensagem mensagem: todasMensagens){
+                if(mensagem.getTexto().contains(termo))
+                    mensagensComTermo.add(mensagem);
+            }
+        }
+        return mensagensComTermo;
     }
 
     public static ArrayList<String> ausentes(String nomeadministrador) throws Exception{
