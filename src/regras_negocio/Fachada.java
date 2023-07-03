@@ -2,6 +2,7 @@ package regras_negocio;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import modelo.Grupo;
@@ -161,17 +162,44 @@ public class Fachada {
         repositorio.salvarObjetos();
     }
 
-    public static ArrayList<Mensagem> obterConversa(String nomeindividuo, String nomedestinatario) throws Exception{
+    public static ArrayList<Mensagem> obterConversa(String nomeIndividuo, String nomeDestinatario) throws Exception{
         //localizar emitente no repositorio
+        Individual individual = repositorio.localizarIndividual(nomeIndividuo);
+        if(individual == null)
+            throw new Exception("criar mensagem - emitente nao existe:" + nomeIndividuo);
+
         //localizar destinatario no repositorio
+        Participante destinatario = repositorio.localizarParticipante(nomeDestinatario);
+        if(destinatario == null)
+            throw new Exception("criar mensagem - destinatario nao existe:" + nomeIndividuo);
+
         //obter do emitente a lista  enviadas
+        ArrayList<Mensagem> enviadasIndividuo = individual.getEnviadas();
         //obter do emitente a lista  recebidas
+        ArrayList<Mensagem> recebidasIndividuo = individual.getRecebidas();
 
         //criar a lista conversa
+        ArrayList<Mensagem> conversa = new ArrayList<>();
         //Adicionar na conversa as mensagens da lista enviadas cujo destinatario é igual ao parametro destinatario
+        for (Mensagem mensagem: enviadasIndividuo){
+            if(mensagem.getDestinatario().equals(destinatario))
+                conversa.add(mensagem);
+        }
         //Adicionar na conversa as mensagens da lista recebidas cujo emitente é igual ao parametro destinatario
+        for (Mensagem mensagem: recebidasIndividuo){
+            if(mensagem.getEmitente().equals(destinatario))
+                conversa.add(mensagem);
+        }
         //ordenar a lista conversa pelo id das mensagens
+        Collections.sort(conversa, new Comparator<Mensagem>() {
+            @Override
+            public int compare(Mensagem m1, Mensagem m2) {
+                return m1.getDatahora().compareTo(m2.getDatahora());
+            }
+        });
         //retornar a lista conversa
+        return conversa;
+
     }
 
     public static void apagarMensagem(String nomeindividuo, int id) throws  Exception{
