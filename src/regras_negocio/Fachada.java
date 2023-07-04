@@ -56,6 +56,7 @@ public class Fachada {
 
         Individual individuo = new Individual(nome,senha, false);
         repositorio.adicionar(individuo);
+        repositorio.salvarObjetos();
     }
 
     public static void criarAdministrador(String nome, String senha) throws  Exception{
@@ -216,7 +217,7 @@ public class Fachada {
         Collections.sort(conversa, new Comparator<Mensagem>() {
             @Override
             public int compare(Mensagem m1, Mensagem m2) {
-                return m1.getDatahora().compareTo(m2.getDatahora());
+                return m1.getData().compareTo(m2.getData());
             }
         });
         //retornar a lista conversa
@@ -254,6 +255,7 @@ public class Fachada {
 
             });
         }
+        repositorio.salvarObjetos();
     }
 
     public static ArrayList<Mensagem> espionarMensagens(String nomeadministrador, String termo) throws Exception{
@@ -281,7 +283,7 @@ public class Fachada {
         //localizar individuo no repositorio
         Individual administrador = repositorio.localizarIndividual(nomeadministrador);
         if(administrador == null)
-            throw new Exception("apagar mensagem - nome nao existe:" + nomeadministrador);
+            throw new Exception("ausentes - nome nao existe:" + nomeadministrador);
         //verificar se individuo é administrador
         ArrayList<String> ausentes = new ArrayList<>();
         if(!administrador.isAdministrador())
@@ -293,6 +295,14 @@ public class Fachada {
                 ausentes.add(participante.getNome());
         }
         return ausentes;
+    }
+
+    public static Individual validarIndividuo(String nomeindividuo, String senha){
+        Individual admin = repositorio.localizarIndividual(nomeindividuo);
+        if (admin.getSenha().equals(senha))
+            return admin;
+        return null;
+
     }
 
 }

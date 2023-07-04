@@ -39,7 +39,7 @@ public class Mensagem {
         return destinatario;
     }
 
-    public LocalDateTime getDatahora() {
+    public LocalDateTime getData() {
         return datahora;
     }
 
