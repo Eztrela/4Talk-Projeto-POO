@@ -10,13 +10,20 @@ public class Mensagem {
     private Participante destinatario;
     private LocalDateTime datahora;
 
-    public Mensagem(int id,String texto, Participante emitente, Participante destinatario) {
+    public Mensagem(int id,Participante emitente,Participante destinatario,String texto  ) {
         this.id = id;
         this.texto = texto;
         this.emitente = emitente;
         this.destinatario = destinatario;
-
         this.datahora = LocalDateTime.now();
+    }
+
+    public Mensagem(int id,Participante emitente,Participante destinatario,String texto, LocalDateTime datahora ) {
+        this.id = id;
+        this.texto = texto;
+        this.emitente = emitente;
+        this.destinatario = destinatario;
+        this.datahora = datahora;
     }
 
     public int getId() {

@@ -178,6 +178,7 @@ public class Fachada {
                     Mensagem mensagemGrupo = repositorio.criarMensagem(idMensagem, grp, individual, texto);
                     individual.adicionarMensagemRecebidas(mensagemGrupo);
                     grp.adicionarMensagemEnviada(mensagemGrupo);
+                    repositorio.adicionar(mensagemGrupo);
                 }
             }
         }
