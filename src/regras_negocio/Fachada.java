@@ -56,6 +56,7 @@ public class Fachada {
 
         Individual individuo = new Individual(nome,senha, false);
         repositorio.adicionar(individuo);
+        repositorio.salvarObjetos();
     }
 
     public static void criarAdministrador(String nome, String senha) throws  Exception{
@@ -81,12 +82,14 @@ public class Fachada {
             throw new Exception("criar individual - nome vazio:");
 
         //localizar nome no repositorio
-        Grupo grupo = repositorio.localizarGrupo(nome);
-        if (grupo != null)
-            throw new Exception("criar grupo - grupo ja existe:" + nome);
+        Participante participante = repositorio.localizarParticipante(nome);
+        if (participante != null && participante instanceof Individual)
+            throw new Exception("criar grupo - Nome do grupo já utilizado por um individuo:" + nome);
+        else if(participante != null && participante instanceof Grupo)
+            throw new Exception("criar grupo - Grupo ja existe:" + nome);
 
         //criar o grupo
-        grupo = new Grupo(nome);
+        Grupo grupo = new Grupo(nome);
         repositorio.adicionar(grupo);
         repositorio.salvarObjetos();
     }
@@ -104,7 +107,7 @@ public class Fachada {
 
         //localizar nomegrupo no repositorio
         Grupo grupo = repositorio.localizarGrupo(nomegrupo);
-        if(individual == null)
+        if(grupo == null)
             throw new Exception("inserir grupo - nomeingrupo nao existe: " + nomegrupo);
 
         //verificar se individuo nao esta no grupo
@@ -154,8 +157,7 @@ public class Fachada {
         Participante destinatario = repositorio.localizarParticipante(nomeDestinatario);
         if(destinatario == null)
             throw new Exception("criar mensagem - destinatario nao existe:" + nomeEmitente);
-
-        if(destinatario instanceof Grupo g && emitente.localizarGrupo(g.getNome())==null)
+        if(!(destinatario instanceof Grupo))
             throw new Exception("criar mensagem - grupo nao permitido:" + nomeDestinatario);
 
 
@@ -177,6 +179,7 @@ public class Fachada {
                     Mensagem mensagemGrupo = repositorio.criarMensagem(idMensagem, grp, individual, texto);
                     individual.adicionarMensagemRecebidas(mensagemGrupo);
                     grp.adicionarMensagemEnviada(mensagemGrupo);
+                    repositorio.adicionar(mensagemGrupo);
                 }
             }
         }
@@ -216,7 +219,7 @@ public class Fachada {
         Collections.sort(conversa, new Comparator<Mensagem>() {
             @Override
             public int compare(Mensagem m1, Mensagem m2) {
-                return m1.getDatahora().compareTo(m2.getDatahora());
+                return m1.getData().compareTo(m2.getData());
             }
         });
         //retornar a lista conversa
@@ -254,6 +257,7 @@ public class Fachada {
 
             });
         }
+        repositorio.salvarObjetos();
     }
 
     public static ArrayList<Mensagem> espionarMensagens(String nomeadministrador, String termo) throws Exception{
@@ -281,7 +285,7 @@ public class Fachada {
         //localizar individuo no repositorio
         Individual administrador = repositorio.localizarIndividual(nomeadministrador);
         if(administrador == null)
-            throw new Exception("apagar mensagem - nome nao existe:" + nomeadministrador);
+            throw new Exception("ausentes - nome nao existe:" + nomeadministrador);
         //verificar se individuo é administrador
         ArrayList<String> ausentes = new ArrayList<>();
         if(!administrador.isAdministrador())
@@ -293,6 +297,18 @@ public class Fachada {
                 ausentes.add(participante.getNome());
         }
         return ausentes;
+    }
+
+    public static Individual validarIndividuo(String nomeindividuo, String senha)throws Exception{
+        Individual admin = repositorio.localizarIndividual(nomeindividuo);
+        if(admin == null)
+            throw new Exception("validarIndividuo - nenhum usuario com esse nome cadastrado:" + nomeindividuo);
+        else if(!admin.getSenha().equals(senha))
+            throw new Exception("validarIndividuo - senha digitada esta incorreta");
+        if (admin.getSenha().equals(senha))
+            return admin;
+        return null;
+
     }
 
 }
