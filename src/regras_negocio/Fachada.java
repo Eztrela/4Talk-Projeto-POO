@@ -107,7 +107,7 @@ public class Fachada {
 
         //localizar nomegrupo no repositorio
         Grupo grupo = repositorio.localizarGrupo(nomegrupo);
-        if(individual == null)
+        if(grupo == null)
             throw new Exception("inserir grupo - nomeingrupo nao existe: " + nomegrupo);
 
         //verificar se individuo nao esta no grupo
@@ -157,8 +157,7 @@ public class Fachada {
         Participante destinatario = repositorio.localizarParticipante(nomeDestinatario);
         if(destinatario == null)
             throw new Exception("criar mensagem - destinatario nao existe:" + nomeEmitente);
-
-        if(destinatario instanceof Grupo g && emitente.localizarGrupo(g.getNome())==null)
+        if(!(destinatario instanceof Grupo))
             throw new Exception("criar mensagem - grupo nao permitido:" + nomeDestinatario);
 
 

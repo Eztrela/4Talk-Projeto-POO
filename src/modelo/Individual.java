@@ -40,7 +40,7 @@ public class Individual extends Participante {
 
     public Grupo localizarGrupo(String nome){
         for(Grupo grp: grupos){
-            if(grp.getNome() == nome)
+            if(grp.getNome().equals(nome))
                 return grp;
         }
         return null;
