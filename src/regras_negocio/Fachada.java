@@ -82,12 +82,14 @@ public class Fachada {
             throw new Exception("criar individual - nome vazio:");
 
         //localizar nome no repositorio
-        Grupo grupo = repositorio.localizarGrupo(nome);
-        if (grupo != null)
-            throw new Exception("criar grupo - grupo ja existe:" + nome);
+        Participante participante = repositorio.localizarParticipante(nome);
+        if (participante != null && participante instanceof Individual)
+            throw new Exception("criar grupo - Nome do grupo já utilizado por um individuo:" + nome);
+        else if(participante != null && participante instanceof Grupo)
+            throw new Exception("criar grupo - Grupo ja existe:" + nome);
 
         //criar o grupo
-        grupo = new Grupo(nome);
+        Grupo grupo = new Grupo(nome);
         repositorio.adicionar(grupo);
         repositorio.salvarObjetos();
     }
