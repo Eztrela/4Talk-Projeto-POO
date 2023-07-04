@@ -300,8 +300,12 @@ public class Fachada {
         return ausentes;
     }
 
-    public static Individual validarIndividuo(String nomeindividuo, String senha){
+    public static Individual validarIndividuo(String nomeindividuo, String senha)throws Exception{
         Individual admin = repositorio.localizarIndividual(nomeindividuo);
+        if(admin == null)
+            throw new Exception("validarIndividuo - nenhum usuario com esse nome cadastrado:" + nomeindividuo);
+        else if(!admin.getSenha().equals(senha))
+            throw new Exception("validarIndividuo - senha digitada esta incorreta");
         if (admin.getSenha().equals(senha))
             return admin;
         return null;
