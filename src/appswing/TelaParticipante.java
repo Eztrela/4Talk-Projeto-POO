@@ -1,7 +1,7 @@
 /**********************************
  * IFPB - Curso Superior de Tec. em Sist. para Internet
  * Pesist~encia de Objetos
- * Prof. Fausto Maranhão Ayres
+ * Prof. Fausto Maranhï¿½o Ayres
  **********************************/
 
 package appswing;
@@ -53,6 +53,7 @@ public class TelaParticipante {
 
 	private JRadioButton radioButton;
 	private JRadioButton radioButton_1;
+	private JButton buttonAdicionarGrupo;
 	private ButtonGroup grupobotoes;
 	private Timer timer; // temporizador
 
@@ -160,6 +161,46 @@ public class TelaParticipante {
 
 			}
 		});
+		buttonAdicionarGrupo = new JButton("Adicionar a grupo");
+		buttonAdicionarGrupo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		buttonAdicionarGrupo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String individuo = JOptionPane.showInputDialog("Insira o nome do individuo");
+					String grupo = JOptionPane.showInputDialog("Insira o nome do grupo");
+
+					Fachada.inserirGrupo(individuo, grupo);
+
+					label.setText("individual adicionado a grupo");
+				} catch (Exception ex) {
+					label.setText(ex.getMessage());
+				}
+
+			}
+		});
+		buttonAdicionarGrupo.setBounds(393, 205, 115, 23);
+		frame.getContentPane().add(buttonAdicionarGrupo);
+
+		JButton buttonRemoverGrupo = new JButton("Remover de grupo");
+		buttonRemoverGrupo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		buttonRemoverGrupo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String individuo = JOptionPane.showInputDialog("Insira o nome do individuo");
+					String grupo = JOptionPane.showInputDialog("Insira o nome do grupo");
+
+					Fachada.removerGrupo(individuo, grupo);;
+
+					label.setText("individual removido de grupo");
+				} catch (Exception ex) {
+					label.setText(ex.getMessage());
+				}
+
+			}
+		});
+		buttonRemoverGrupo.setBounds(393, 235, 115, 23);
+
+		frame.getContentPane().add(buttonRemoverGrupo);
 		button.setBounds(309, 225, 74, 23);
 		frame.getContentPane().add(button);
 
