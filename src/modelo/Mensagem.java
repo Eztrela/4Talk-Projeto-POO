@@ -10,7 +10,8 @@ public class Mensagem {
     private Participante destinatario;
     private LocalDateTime datahora;
 
-    public Mensagem(String texto, Participante emitente, Participante destinatario) {
+    public Mensagem(int id,String texto, Participante emitente, Participante destinatario) {
+        this.id = id;
         this.texto = texto;
         this.emitente = emitente;
         this.destinatario = destinatario;

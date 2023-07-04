@@ -14,6 +14,12 @@ public class Grupo extends Participante{
         return individuos;
     }
 
+    public void adicionar(Individual indvidual){
+        this.individuos.add(indvidual);
+    }
+
+    public void remover(Individual individual) { this.individuos.remove(individual); }
+
     @Override
     public String toString() {
         return "Grupo{" +
