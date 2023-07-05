@@ -1,7 +1,8 @@
 /.classpath
 /.project
 /.idea
-/.csv
+*.csv
+*.class
 # Default ignored files
 /shelf/
 /workspace.xml

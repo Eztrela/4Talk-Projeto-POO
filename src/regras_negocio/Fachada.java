@@ -157,7 +157,7 @@ public class Fachada {
         Participante destinatario = repositorio.localizarParticipante(nomeDestinatario);
         if(destinatario == null)
             throw new Exception("criar mensagem - destinatario nao existe:" + nomeEmitente);
-        if(!(destinatario instanceof Grupo))
+        if(destinatario instanceof Grupo g && emitente.localizarGrupo(g.getNome())==null)
             throw new Exception("criar mensagem - grupo nao permitido:" + nomeDestinatario);
 
 
