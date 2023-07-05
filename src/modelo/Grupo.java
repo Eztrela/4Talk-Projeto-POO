@@ -14,8 +14,9 @@ public class Grupo extends Participante{
         return individuos;
     }
 
-    public void adicionar(Individual indvidual){
-        this.individuos.add(indvidual);
+    public void adicionar(Individual individual){
+        this.individuos.add(individual);
+        individual.adicionar(this);
     }
 
     public void remover(Individual individual) { this.individuos.remove(individual); }

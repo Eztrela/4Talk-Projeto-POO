@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import regras_negocio.Fachada;
 
 import modelo.Individual;
 
@@ -57,12 +58,18 @@ public class TelaPrincipal {
 	public TelaPrincipal() {
 		initialize();
 		frame.setVisible(true);
+		try {
+			Fachada.criarAdministrador("admin", "admin");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+
 		frame = new JFrame();
 		frame.setTitle("4TALK - Sem Participante logado");
 		frame.setBounds(100, 100, 450, 300);

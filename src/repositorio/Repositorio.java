@@ -43,8 +43,8 @@ public class Repositorio {
     }
 
     public Individual localizarIndividual(String nome){
-            if (participantes.get(nome) instanceof Individual ind)
-                return ind;
+        if (participantes.get(nome) instanceof Individual ind)
+            return ind;
         return null;
     }
 
@@ -54,10 +54,6 @@ public class Repositorio {
         return null;
     }
 
-    public Mensagem criarMensagem(int idMensagem, Participante emitente, Participante destinatario, String texto){
-        Mensagem mensagem = new Mensagem(idMensagem,emitente,destinatario,texto);
-        return mensagem;
-    }
 
     public void adicionar(Mensagem mensagem) {
         mensagens.add(mensagem);
@@ -70,8 +66,7 @@ public class Repositorio {
     public ArrayList<Participante> getParticipantes(){
         ArrayList<Participante> prtes = new ArrayList<>();
         for(Participante part: participantes.values()){
-            if(part instanceof Individual)
-                prtes.add((Individual) part);
+            prtes.add(part);
         }
         return prtes;
     }

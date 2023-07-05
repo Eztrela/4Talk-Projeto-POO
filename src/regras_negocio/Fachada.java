@@ -165,7 +165,7 @@ public class Fachada {
         //gerar id no repositorio para a mensagem
         int idMensagem = repositorio.geraIdMensagem();
 
-        Mensagem mensagem = repositorio.criarMensagem(idMensagem,emitente,destinatario,texto);
+        Mensagem mensagem = new Mensagem(idMensagem,emitente,destinatario,texto);
         //adicionar mensagem ao emitente e destinatario
         emitente.adicionarMensagemEnviada(mensagem);
         destinatario.adicionarMensagemRecebidas(mensagem);
@@ -176,7 +176,7 @@ public class Fachada {
         if (destinatario instanceof Grupo grp){
             for (Individual individual: grp.getIndividuos()){
                 if(!individual.equals(emitente)) {
-                    Mensagem mensagemGrupo = repositorio.criarMensagem(idMensagem, grp, individual, texto);
+                    Mensagem mensagemGrupo = new Mensagem(idMensagem, grp, individual, texto);
                     individual.adicionarMensagemRecebidas(mensagemGrupo);
                     grp.adicionarMensagemEnviada(mensagemGrupo);
                     repositorio.adicionar(mensagemGrupo);
